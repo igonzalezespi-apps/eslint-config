@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  build:
+    name: typecheck + test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # pnpm must be installed before setup-node so `cache: pnpm` can find it.
+      - name: El gestor de paquetes va pineado por hash
+        # `packageManager` sin `+sha512...` deja que corepack acepte la version por
+        # NOMBRE: quien sirva ese tarball decide que se ejecuta antes que cualquier
+        # otro gate. Es el mismo pin que este repo ya exige a todas sus actions
+        # (SHA, no tag); no tenerlo aqui era una incoherencia, no una preferencia.
+        #
+        # Salta en la PR del bot, que es donde hay que enterarse: el bump de pnpm
+        # sustituye el valor entero y se lleva el hash por delante sin avisar.
+        run: |
+          pm=$(node -p "require('./package.json').packageManager || ''")
+          case "$pm" in
+            *"+sha512."*) echo "OK: $pm" ;;
+            "") echo "::error::package.json no declara packageManager"; exit 1 ;;
+            *) echo "::error::packageManager sin hash de integridad: '$pm'. Regeneralo con 'corepack use pnpm@<version>', que lo escribe el."; exit 1 ;;
+          esac
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Test
+        run: pnpm test

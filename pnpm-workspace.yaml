@@ -1,0 +1,39 @@
+# Build scripts this repo allows a dependency to run at install time.
+#
+# WHY THIS FILE EXISTS: pnpm 11 turned "ignored build scripts" from a warning
+# into a HARD ERROR (`ERR_PNPM_IGNORED_BUILDS`), so the pnpm-11 bump PR fails CI
+# on an install that pnpm 10 completed with a notice. The build was already being
+# skipped under pnpm 10 — pnpm 11 only made it loud.
+#
+# `unrs-resolver` is the native resolver behind eslint-import-resolver-typescript.
+# Its postinstall selects/loads the platform binding, so it is a real build, not
+# telemetry: approving it is restoring intended behaviour, not widening trust.
+#
+# The key is `allowBuilds`, NOT `onlyBuiltDependencies`. pnpm 11 renamed it, and
+# the old key is read (it shows up in `pnpm config list`) yet does NOT stop the
+# error — measured: with `onlyBuiltDependencies` the install still exits 1. This
+# file is what `pnpm approve-builds` itself writes.
+allowBuilds:
+  unrs-resolver: true
+
+# pnpm's publish cooldown is DELIBERATELY OFF, and that is a measured decision,
+# not an oversight. pnpm 11 ships it enabled by default (a ~24h window).
+#
+# The problem: pnpm applies it to the ENTIRE TRANSITIVE CLOSURE on every lockfile
+# verification, not just to the dependency being touched. Measured on this repo:
+#
+#   window 1 year -> 187 entries rejected, install exits 1
+#   window 0      -> install exits 0
+#
+# With the default on, Renovate CANNOT regenerate the lockfile: its PRs are left
+# with a broken artifact ("Artifact update problem") and the bot does not retry on
+# its own — only on a manifest change, a conflict, or human action. That is exactly
+# what happened in the other repos of the fleet before the cooldown was retired.
+#
+# THE PROTECTION DOES NOT DISAPPEAR, it moves to the only place where it works: the
+# studio's Renovate preset holds updates for 7 days AT THE PR LEVEL, on the
+# dependency actually being updated — not on the whole closure it drags along.
+# What stays uncovered is a MANUAL `pnpm add` of a freshly published package; that
+# is covered by a check aimed at that operation, not by re-verifying the entire
+# tree on every install.
+minimumReleaseAge: 0

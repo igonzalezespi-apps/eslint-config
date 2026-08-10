@@ -1,0 +1,44 @@
+{
+  "name": "@studio/eslint-config",
+  "version": "0.2.3",
+  "description": "Studio shared ESLint flat config — base (security + sonarjs + jsdoc + TS), next, and expo presets.",
+  "license": "MIT",
+  "author": "igonzalezespi",
+  "type": "module",
+  "exports": {
+    "./base": "./base.mjs",
+    "./next": "./next.mjs",
+    "./expo": "./expo.mjs"
+  },
+  "files": [
+    "base.mjs",
+    "next.mjs",
+    "expo.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint-config-expo": "^57.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsdoc": "^63.3.1",
+    "eslint-plugin-security": "^4.0.1",
+    "eslint-plugin-sonarjs": "^4.2.0",
+    "globals": "^17.8.0",
+    "typescript-eslint": "^8.65.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.39.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@typescript-eslint/rule-tester": "^8.65.0",
+    "eslint": "^10.8.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
+}

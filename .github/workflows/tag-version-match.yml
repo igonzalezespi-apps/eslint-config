@@ -1,0 +1,41 @@
+# Fires when a release tag is pushed and asserts that the tag agrees with the `version` in the
+# package.json of the commit it points at.
+#
+# `runs-on: ubuntu-latest` is fixed here, NEVER `vars.RUNNER_TARGET`: this repo is governed as
+# public, and pointing `runs-on` at one of the studio's own machines from a public repo is a
+# security boundary, not a billing preference — a fork's PR runs the FORK's workflow file, i.e.
+# a third party's code, on that machine.
+#
+# The literal token this paragraph is carefully NOT writing is what
+# `security/check-no-selfhosted.sh` greps for. It matches the bare token on purpose, because
+# `runs-on` has several legal spellings and a line-anchored pattern would miss the one a future
+# edit is most likely to take. So the guard prefers a false positive to a weakened pattern, and
+# the sanctioned fix is to reword the prose — which is what this comment does.
+name: Tag / version match
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  tag-version-match:
+    name: tag-version-match
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the tagged commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+
+      # Only the tag being pushed. `--all` is deliberately NOT used: v0.1.1, v0.1.2 and v0.2.2
+      # are historically mismatched and their tags are immutable, so an --all gate here would be
+      # red forever and would be muted within a week. Audit the history by hand instead:
+      #   ./scripts/check-tag-version.sh --all
+      - name: The tag must agree with package.json
+        run: ./scripts/check-tag-version.sh "${GITHUB_REF_NAME}"
