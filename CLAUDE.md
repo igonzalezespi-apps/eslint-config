@@ -1,7 +1,21 @@
 # eslint-config
 
 Shared, published **ESLint flat configs** for the maintainer's repos: `base.mjs`, `expo.mjs`,
-`next.mjs`. Public (MIT). Consumed as an npm dependency, so the exported configs are a public
+`next.mjs`.
+
+> **⚠️ ESTE PAQUETE NO SE PUBLICA EN npm, y la frase de arriba decía lo contrario.**
+>
+> Los consumidores lo instalan como **dependencia de git**, no del registro:
+> `"@studio/eslint-config": "git+https://github.com/igonzalezespi-apps/eslint-config.git#v0.0.0"`.
+>
+> No es un matiz. Comprobado el 2026-08-12: el nombre **`@studio/eslint-config` SÍ existe en npm y es de otra
+> persona** — `mantoni`, «The JavaScript Studio», desde 2016. Un `pnpm add @studio/eslint-config` siguiendo la
+> línea anterior no habría fallado: habría instalado el paquete de un tercero creyendo que era
+> éste. Una falsedad en un contrato que se puede *ejecutar* es peor que una que solo confunde.
+>
+> Lo que sí es cierto y sigue mandando: **la API pública es real**. Un cambio en lo exportado rompe
+> a cada consumidor, y por eso los consumidores lo pinean **por tag**.
+ Public (MIT). Consumed as a **git dependency pinned by tag**, so the exported configs are a public
 API — a rule change affects every consumer's lint.
 
 ## Rules
