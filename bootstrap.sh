@@ -17,7 +17,7 @@ cd "$ROOT"
 # Kept in lockstep with .claude/settings.json enabledPlugins. The marketplace is
 # added first (idempotent) so the @ivan plugins resolve.
 if command -v claude >/dev/null 2>&1; then
-  claude plugin marketplace add igonzalezespi/claude-plugins 2>/dev/null || true
+  claude plugin marketplace add igonzalezespi-apps/claude-plugins 2>/dev/null || true
   for p in core-dev stack-node studio-policy; do
     claude plugin install "${p}@ivan" --scope project || \
       echo "bootstrap: could not install ${p}@ivan (continuing)" >&2

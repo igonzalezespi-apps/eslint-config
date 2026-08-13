@@ -31,7 +31,7 @@ This repo is **not published to npm**. Depend on it by git tag:
 // package.json
 {
   "devDependencies": {
-    "@studio/eslint-config": "github:igonzalezespi/eslint-config#v0.1.3"
+    "@studio/eslint-config": "github:igonzalezespi-apps/eslint-config#v0.1.3"
   }
 }
 ```
@@ -83,7 +83,7 @@ project lints against one source of truth instead of drifting per-repo copies.
 It merges the previously-separate base config (the richer ESLint 10 base:
 security + sonarjs + jsdoc, with rule-tester tests) and the `aca` config (the
 `expo` preset). The companion
-[`@studio/tsconfig`](https://github.com/igonzalezespi/tsconfig) does the same for
+[`@studio/tsconfig`](https://github.com/igonzalezespi-apps/tsconfig) does the same for
 TypeScript compiler options.
 
 Consumer migration of the product repos onto this package is a separate,
