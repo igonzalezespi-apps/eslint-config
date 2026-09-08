@@ -12,7 +12,7 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.10.0)
       eslint-config-expo:
-        specifier: ^57.0.1
+        specifier: ^57.0.2
         version: 57.0.2(eslint@10.10.0)(typescript@6.0.3)
       eslint-config-prettier:
         specifier: ^10.1.8
@@ -30,14 +30,14 @@ importers:
         specifier: ^17.11.0
         version: 17.12.0
       typescript-eslint:
-        specifier: ^8.68.0
+        specifier: ^8.69.0
         version: 8.70.0(eslint@10.10.0)(typescript@6.0.3)
     devDependencies:
       '@types/node':
         specifier: ^24.13.3
         version: 24.13.3
       '@typescript-eslint/rule-tester':
-        specifier: ^8.68.0
+        specifier: ^8.69.0
         version: 8.70.0(eslint@10.10.0)(typescript@6.0.3)
       eslint:
         specifier: ^10.9.1
