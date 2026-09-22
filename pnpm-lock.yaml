@@ -34,7 +34,7 @@ importers:
         version: 8.70.1(eslint@10.11.0)(typescript@6.0.3)
     devDependencies:
       '@types/node':
-        specifier: ^24.13.4
+        specifier: ^24.13.5
         version: 24.13.6
       '@typescript-eslint/rule-tester':
         specifier: ^8.70.0
