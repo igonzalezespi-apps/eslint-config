@@ -34,7 +34,7 @@
     "eslint": ">=10.10.0"
   },
   "devDependencies": {
-    "@types/node": "^24.13.4",
+    "@types/node": "^24.13.5",
     "@typescript-eslint/rule-tester": "^8.70.0",
     "eslint": "^10.10.0",
     "typescript": "^6.0.3",
