@@ -32,11 +32,21 @@ API — a rule change affects every consumer's lint.
   and OpenSpec **spec deltas** (`specs/**/spec.md`, which keep their `SHALL` / `WHEN`/`THEN`
   RFC2119 keyword format).
 - **Conventional Commits** — `type(scope): description` (`feat/fix/chore/docs/ci`).
-- **Branch flow: trunk → main, squash-only.** PRs target `main` and land as **one squashed
-  commit whose message is the PR title** (enforced by repo settings), so the PR title MUST be
-  a valid Conventional Commit — it drives the computed changelog/version. The only sanctioned
-  force-push is `--force-with-lease` on your own PR branch; never GitHub's "Update branch"
-  button (it puts a merge commit on the PR branch).
+- **Branch flow: `develop` → `main`.** `develop` is the default branch: work PRs target it and
+  land as **one squashed commit whose message is the PR title** — by convention, not by settings
+  (all three merge methods are enabled) — so the PR title MUST be a valid Conventional Commit:
+  it drives the computed changelog/version. Work reaches `main` only through the **promotion
+  PR** `develop` → `main`, which the maintainer merges with a **merge commit**; an agent never
+  merges into `main`. The only sanctioned force-push is `--force-with-lease` on your own PR
+  branch; never GitHub's "Update branch" button (it puts a merge commit on the PR branch).
+  **One measured exception:** dependency PRs still open against `main`, and automerge there,
+  because the shared Renovate preset this repo extends (`renovate-config:config-repo`) pins its
+  base branch there
+  (`gh pr list --repo igonzalezespi-apps/eslint-config --state merged --search 'author:app/renovate' --json baseRefName,mergedBy`).
+  *(Corrected 2026-09-29. Until then this bullet said «trunk → main, squash-only. PRs target `main`» <!-- flow-claim: allow -->
+  and «enforced by repo settings», a month after the move to `develop` on 2026-08-26. Re-measure
+  with `gh api repos/igonzalezespi-apps/eslint-config --jq '[.default_branch,.allow_squash_merge,.allow_merge_commit,.allow_rebase_merge]'`
+  and `gh pr list --repo igonzalezespi-apps/eslint-config --state merged --limit 10 --json baseRefName,headRefName`.)*
 - **No secrets committed** — placeholders only.
 - **Tests are the contract.** `__tests__/` (vitest) pins the exported rules; run them before
   committing. A rule add/removal is a breaking change for consumers — prefer additive/opt-in.
