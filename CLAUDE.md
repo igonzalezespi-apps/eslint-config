@@ -29,4 +29,4 @@ public API: a rule change alters every consumer's lint.
 ## Reserved to the maintainer (escalate, do not decide)
 
 Breaking the public API (a config or rule change consumers depend on) · spend or cost · opening,
-renaming or changing the visibility of this repo · edits to this contract.
+renaming or changing the visibility of this repo.
