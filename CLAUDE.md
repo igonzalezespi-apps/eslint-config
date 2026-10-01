@@ -19,10 +19,12 @@ public API: a rule change alters every consumer's lint.
   Conventional Commit: it drives the changelog and version, together with the one `semver:*`
   label every PR needs. `main` moves only through the promotion PR `develop` → `main`, which the
   maintainer merges with a merge commit; nothing automatic, and no agent, ever merges into `main`.
-- **Server-side (public repos only, D-20):** `develop` and `main` are protected — a pull request
-  and a green `typecheck + test` are required, for admins too. `merge-when-green` (dry until the
-  maintainer turns it live) may squash riesgo-0 PRs into `develop`; `develop-health` reverts such
-  a merge if it turns `develop` red. Run `./bootstrap.sh` after cloning.
+- **Server-side, once the maintainer applies it** (public repos only; check with
+  `gh api repos/<owner>/<repo>/branches/<branch>/protection`, 404 = not yet): `develop` and `main`
+  need a pull request and a green `typecheck + test`, for admins too; only the maintainer pushes or
+  merges into `main`. `merge-when-green` (dry until the maintainer turns it live) may squash
+  riesgo-0 PRs into `develop`; `develop-health` reverts such a merge if it turns `develop` red.
+  Run `./bootstrap.sh` after cloning.
 - The company-wide rules come from the `studio-policy` plugin; this file keeps only what is
   specific to this repo. Path rules load on demand: `.claude/rules/configs.md` (the presets and
   their tests) and `.claude/rules/guard.md` (`scripts/hooks/`, `.githooks/`, `bootstrap.sh`).

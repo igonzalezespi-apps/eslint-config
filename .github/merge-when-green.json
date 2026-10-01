@@ -52,8 +52,5 @@
   ],
   "renovate_minor_class": 3,
   "app_slug": "studio-merge",
-  "verdict_authors": [
-    "igonzalezespi"
-  ],
   "max_reverts_per_day": 1
 }
