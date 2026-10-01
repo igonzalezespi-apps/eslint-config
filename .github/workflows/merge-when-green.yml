@@ -1,0 +1,44 @@
+# Autonomous merging, DRY until the maintainer sets the repository variable
+# MERGE_WHEN_GREEN_MODE=live and puts the merge App's key in the `merge-app` Environment (deployment
+# branches: develop only). In dry mode it labels riesgo:N and keeps one comment per PR saying what
+# it would do. Decision logic and rules: studio-ci README, "Autonomous merging".
+#
+# `workflows:` are the `name:` of every workflow that reports on a PR, plus CI, whose push run on
+# develop (after an automatic merge) lets the next PR go. The job-level `if:` filters before any
+# runner starts.
+name: merge-when-green
+
+on:
+  workflow_run:
+    workflows: ["CI", "Guard self-test", "PR TL;DR", "context-budget", "pr-title-lint", "Require semver label"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "Only this PR (empty: every open PR into develop)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "11,41 * * * *"
+
+permissions: {}
+
+jobs:
+  merge-when-green:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      actions: read
+      checks: read
+      statuses: read
+    # PRE-RELEASE PIN (draft): the head of studio-ci feat/merge-autonomo. Re-pin to the merge commit
+    # of studio-ci v0.10.0 on main before this PR leaves draft.
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/merge-when-green.yml@e03ec6e524fc3e00a99fb3e20a5889cd85801985 # v0.10.0
+    with:
+      mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}
+      pr: ${{ inputs.pr || '' }}

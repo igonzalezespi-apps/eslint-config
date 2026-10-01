@@ -12,9 +12,12 @@ on:
 permissions:
   contents: read
 
+# A push to `develop` or `main` never cancels the previous one: every pushed commit needs its own
+# verdict, or develop-health cannot tie a red to one merge (it would see two commits between the
+# last green and the first red and escalate instead of reverting). PRs still cancel a stale run.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
 jobs:
   build:

@@ -1,0 +1,33 @@
+# develop-health: judges develop with its push CI; a real red that survives one re-run freezes
+# automatic merging and reverts the one automatic merge that caused it (or escalates with
+# revision-humana). DRY until MERGE_WHEN_GREEN_MODE=live. Rules: studio-ci README.
+name: develop-health
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [develop]
+  workflow_dispatch:
+  schedule:
+    - cron: "17,47 * * * *"
+
+permissions: {}
+
+jobs:
+  develop-health:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    permissions:
+      contents: read
+      actions: write
+      issues: write
+      pull-requests: write
+      checks: read
+      statuses: read
+    # PRE-RELEASE PIN (draft): see merge-when-green.yml.
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@e03ec6e524fc3e00a99fb3e20a5889cd85801985 # v0.10.0
+    with:
+      mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}

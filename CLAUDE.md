@@ -18,10 +18,11 @@ public API: a rule change alters every consumer's lint.
   three merge methods are enabled — so the PR title becomes the commit and MUST be a valid
   Conventional Commit: it drives the changelog and version, together with the one `semver:*`
   label every PR needs. `main` moves only through the promotion PR `develop` → `main`, which the
-  maintainer merges with a merge commit; an agent never merges into `main`.
-- **Nothing is enforced server-side** (no branch protection, rulesets or required checks: a
-  standing decision). CI reports, it does not block; what stops a mistake is the vendored guard
-  in-session and the `.githooks/` hooks per clone. Run `./bootstrap.sh` after cloning.
+  maintainer merges with a merge commit; nothing automatic, and no agent, ever merges into `main`.
+- **Server-side (public repos only, D-20):** `develop` and `main` are protected — a pull request
+  and a green `typecheck + test` are required, for admins too. `merge-when-green` (dry until the
+  maintainer turns it live) may squash riesgo-0 PRs into `develop`; `develop-health` reverts such
+  a merge if it turns `develop` red. Run `./bootstrap.sh` after cloning.
 - The company-wide rules come from the `studio-policy` plugin; this file keeps only what is
   specific to this repo. Path rules load on demand: `.claude/rules/configs.md` (the presets and
   their tests) and `.claude/rules/guard.md` (`scripts/hooks/`, `.githooks/`, `bootstrap.sh`).
