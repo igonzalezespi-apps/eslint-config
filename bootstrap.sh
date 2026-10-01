@@ -15,10 +15,12 @@ cd "$ROOT"
 
 # --- 1. Declared plugins (project scope) ------------------------------------
 # Kept in lockstep with .claude/settings.json enabledPlugins. The marketplace is
-# added first (idempotent) so the @ivan plugins resolve.
+# added first (idempotent) so the @ivan plugins resolve. `@main` matches the `ref`
+# of the declaration in settings.json: the marketplace is ONE clone per machine,
+# and a declaration with a different source re-points it for every repo.
 if command -v claude >/dev/null 2>&1; then
-  claude plugin marketplace add igonzalezespi-apps/claude-plugins 2>/dev/null || true
-  for p in core-dev stack-node studio-policy; do
+  claude plugin marketplace add igonzalezespi-apps/claude-plugins@main 2>/dev/null || true
+  for p in core-dev studio-policy; do
     claude plugin install "${p}@ivan" --scope project || \
       echo "bootstrap: could not install ${p}@ivan (continuing)" >&2
   done
