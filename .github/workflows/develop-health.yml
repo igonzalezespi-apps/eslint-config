@@ -28,6 +28,6 @@ jobs:
       checks: read
       statuses: read
     # PRE-RELEASE PIN (draft): see merge-when-green.yml.
-    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@e03ec6e524fc3e00a99fb3e20a5889cd85801985 # v0.10.0
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@d6e6ff6c41795e1aa674e04440441a28e97433ea # v0.10.0
     with:
       mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}
