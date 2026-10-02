@@ -36,7 +36,7 @@ jobs:
       actions: read
       checks: read
       statuses: read
-    uses: igonzalezespi-apps/studio-ci/.github/workflows/merge-when-green.yml@f73a87ff368000577089277e647fc578cbd2032f # v0.10.0
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/merge-when-green.yml@a9e9d92b63ec8353646510a3112e0a03eee72c02 # v0.11.1
     with:
       mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}
       pr: ${{ inputs.pr || '' }}

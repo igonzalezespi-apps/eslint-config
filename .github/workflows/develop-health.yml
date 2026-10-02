@@ -1,6 +1,9 @@
 # develop-health: judges develop with its push CI; a real red that survives one re-run freezes
 # automatic merging and reverts the one automatic merge that caused it (or escalates with
 # revision-humana). DRY until MERGE_WHEN_GREEN_MODE=live. Rules: studio-ci README.
+# owner-alert: on these same runs, one @mention to the maintainer on a PR waiting for him that is
+# riesgo-4 (at once) or riesgo-3 (after 24 h, the default owner-alert-hours). It is written with
+# GITHUB_TOKEN, also in dry mode; GitHub's notification is the push.
 name: develop-health
 
 on:
@@ -27,6 +30,7 @@ jobs:
       pull-requests: write
       checks: read
       statuses: read
-    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@f73a87ff368000577089277e647fc578cbd2032f # v0.10.0
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@a9e9d92b63ec8353646510a3112e0a03eee72c02 # v0.11.1
     with:
       mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}
+      owner-alert: igonzalezespi
