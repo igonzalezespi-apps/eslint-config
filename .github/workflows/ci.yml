@@ -12,9 +12,14 @@ on:
 permissions:
   contents: read
 
+# Every push to `develop` or `main` gets its own run and its own verdict: its own concurrency group
+# (the commit), so nothing cancels or replaces it — `cancel-in-progress: false` alone is not enough,
+# GitHub still cancels a PENDING run of the same group when a third one arrives. Without one verdict
+# per pushed commit, develop-health cannot tie a red to one merge (it would see two commits between
+# the last green and the first red and escalate instead of reverting). PRs still cancel a stale run.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'push' && github.sha || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 jobs:
   build:

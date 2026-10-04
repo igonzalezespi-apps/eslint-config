@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "max_auto_class": 0,
+  "required_checks": [
+    {
+      "workflow": "ci.yml",
+      "job": "typecheck + test"
+    },
+    {
+      "workflow": "guard-selftest.yml",
+      "job": "guard-selftest"
+    },
+    {
+      "workflow": "pr-tldr.yml",
+      "job": "check-pr-tldr"
+    },
+    {
+      "workflow": "context-budget.yml",
+      "job": "context-budget"
+    },
+    {
+      "workflow": "pr-title-lint.yml",
+      "job": "lint"
+    },
+    {
+      "workflow": "require-semver-label.yml",
+      "job": "require-semver-label"
+    }
+  ],
+  "required_push_checks": [
+    {
+      "workflow": "ci.yml",
+      "job": "typecheck + test"
+    }
+  ],
+  "state_workflows": [
+    "pr-tldr.yml",
+    "context-budget.yml",
+    "pr-title-lint.yml",
+    "require-semver-label.yml"
+  ],
+  "settle_seconds": 120,
+  "risk_paths": [
+    {
+      "glob": "*.mjs",
+      "class": 2,
+      "why": "the exported configs: every consumer's lint"
+    }
+  ],
+  "bot_authors": [
+    "renovate[bot]"
+  ],
+  "renovate_minor_class": 3,
+  "app_slug": "studio-merge",
+  "max_reverts_per_day": 1
+}

@@ -1,59 +1,35 @@
 # eslint-config
 
-Shared, published **ESLint flat configs** for the maintainer's repos: `base.mjs`, `expo.mjs`,
-`next.mjs`.
-
-> **⚠️ ESTE PAQUETE NO SE PUBLICA EN npm, y la frase de arriba decía lo contrario.**
->
-> Los consumidores lo instalan como **dependencia de git**, no del registro:
-> `"@studio/eslint-config": "git+https://github.com/igonzalezespi-apps/eslint-config.git#v0.0.0"`.
->
-> No es un matiz. Comprobado el 2026-08-12: el nombre **`@studio/eslint-config` SÍ existe en npm y es de otra
-> persona** — `mantoni`, «The JavaScript Studio», desde 2016. Un `pnpm add @studio/eslint-config` siguiendo la
-> línea anterior no habría fallado: habría instalado el paquete de un tercero creyendo que era
-> éste. Una falsedad en un contrato que se puede *ejecutar* es peor que una que solo confunde.
->
-> Lo que sí es cierto y sigue mandando: **la API pública es real**. Un cambio en lo exportado rompe
-> a cada consumidor, y por eso los consumidores lo pinean **por tag**.
- Public (MIT). Consumed as a **git dependency pinned by tag**, so the exported configs are a public
-API — a rule change affects every consumer's lint.
+Shared **ESLint flat configs** (`base.mjs`, `next.mjs`, `expo.mjs`) for the maintainer's repos.
+Public (MIT). **Not published to npm:** consumers install it as a git dependency pinned by tag
+(`github:igonzalezespi-apps/eslint-config#vX.Y.Z`). The npm name `@studio/eslint-config` belongs
+to an unrelated third party, so never install it from the registry. The exported configs are a
+public API: a rule change alters every consumer's lint.
 
 ## Rules
 
-- **Public repo — never name a private project.** Not in configs, tests, docs, comments,
-  commit messages, or CI. A local `pre-commit` guard (`.githooks/pre-commit`) enforces this
-  against a private denylist; enable it per clone with `git config core.hooksPath .githooks`
-  (it is a no-op where the denylist is absent, e.g. a fork). Not wired via a package `prepare`
-  script on purpose — that would run in consumers' installs.
-- **Language / Idioma** — Reply to the user (Ivan) in **Spanish**; he reads Spanish and this
-  holds in every repo and session. Author the OpenSpec docs the user reads — `proposal.md`,
-  `design.md`, `tasks.md` — in **Spanish** too. Everything else stays **English**: source
-  code, comments, identifiers, this contract file's own text, skills/SKILL.md, agent prompts,
-  and OpenSpec **spec deltas** (`specs/**/spec.md`, which keep their `SHALL` / `WHEN`/`THEN`
-  RFC2119 keyword format).
-- **Conventional Commits** — `type(scope): description` (`feat/fix/chore/docs/ci`).
-- **Branch flow: trunk → main, squash-only.** PRs target `main` and land as **one squashed
-  commit whose message is the PR title** (enforced by repo settings), so the PR title MUST be
-  a valid Conventional Commit — it drives the computed changelog/version. The only sanctioned
-  force-push is `--force-with-lease` on your own PR branch; never GitHub's "Update branch"
-  button (it puts a merge commit on the PR branch).
-- **No secrets committed** — placeholders only.
-- **Tests are the contract.** `__tests__/` (vitest) pins the exported rules; run them before
-  committing. A rule add/removal is a breaking change for consumers — prefer additive/opt-in.
-- **Agent guard.** A vendored `scripts/hooks/bash-guard.sh` is cabled as a PreToolUse Bash
-  hook in `.claude/settings.json`; it denies pushes to `main` and other forbidden actions and
-  enforces from its committed copy (no plugin required). `bootstrap.sh` refreshes and verifies
-  it; run `bash scripts/hooks/bash-guard.test.sh` after touching it.
+- **Public repo: never name a private project** — not in configs, tests, docs, comments, commit
+  messages, PR bodies or CI. The `.githooks/` hooks enforce it against a private denylist (a no-op
+  on a fork); they are not wired through a package `prepare` script on purpose, since that would
+  run in consumers' installs.
+- **Language:** reply to the maintainer in Spanish; code, comments and this file stay English.
+- **Branch flow: `develop` → `main`.** Work PRs target `develop`, and so do dependency PRs (the
+  shared Renovate preset inherits `develop`). They land by **squash** — a convention, since all
+  three merge methods are enabled — so the PR title becomes the commit and MUST be a valid
+  Conventional Commit: it drives the changelog and version, together with the one `semver:*`
+  label every PR needs. `main` moves only through the promotion PR `develop` → `main`, which the
+  maintainer merges with a merge commit; nothing automatic, and no agent, ever merges into `main`.
+- **Server-side, once the maintainer applies it** (public repos only; check with
+  `gh api repos/<owner>/<repo>/branches/<branch>/protection`, 404 = not yet): `develop` and `main`
+  need a pull request and a green `typecheck + test`, for admins too; only the maintainer pushes or
+  merges into `main`. `merge-when-green` (dry until the maintainer turns it live) may squash
+  riesgo-0 PRs into `develop`; `develop-health` reverts such a merge if it turns `develop` red.
+  Run `./bootstrap.sh` after cloning.
+- The company-wide rules come from the `studio-policy` plugin; this file keeps only what is
+  specific to this repo. Path rules load on demand: `.claude/rules/configs.md` (the presets and
+  their tests) and `.claude/rules/guard.md` (`scripts/hooks/`, `.githooks/`, `bootstrap.sh`).
 
-## Reserved to Ivan (escalate, do not decide)
+## Reserved to the maintainer (escalate, do not decide)
 
-Breaking a public API (a config/rule change consumers depend on) · spend/cost · opening or
-renaming this repo · edits to this contract. When in doubt, escalate rather than guess.
-
-## Studio layer
-
-This repo declares the maintainer's plugins in `.claude/settings.json` (`core-dev`,
-`stack-node`, `studio-policy`) from the `ivan` marketplace. The shared **company-layer
-contract is injected at runtime by the `studio-policy` plugin** — it is not vendored here, so
-this file stays self-contained and neutral. Run `./bootstrap.sh` on a fresh clone or worktree
-to install the plugins and enable the guards (per-machine install is a separate step).
+Breaking the public API (a config or rule change consumers depend on) · spend or cost · opening,
+renaming or changing the visibility of this repo.
