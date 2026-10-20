@@ -11,10 +11,6 @@
       "job": "guard-selftest"
     },
     {
-      "workflow": "pr-tldr.yml",
-      "job": "check-pr-tldr"
-    },
-    {
       "workflow": "context-budget.yml",
       "job": "context-budget"
     },
@@ -34,7 +30,6 @@
     }
   ],
   "state_workflows": [
-    "pr-tldr.yml",
     "context-budget.yml",
     "pr-title-lint.yml",
     "require-semver-label.yml"

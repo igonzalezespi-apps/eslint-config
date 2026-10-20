@@ -10,7 +10,7 @@ name: merge-when-green
 
 on:
   workflow_run:
-    workflows: ["CI", "Guard self-test", "PR TL;DR", "context-budget", "pr-title-lint", "Require semver label"]
+    workflows: ["CI", "Guard self-test", "context-budget", "pr-title-lint", "Require semver label"]
     types: [completed]
   workflow_dispatch:
     inputs:
