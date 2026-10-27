@@ -30,7 +30,7 @@ jobs:
       pull-requests: write
       checks: read
       statuses: read
-    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@0f8ad32bddc3245a0522820c6994834d11dcb122 # v0.11.2
+    uses: igonzalezespi-apps/studio-ci/.github/workflows/develop-health.yml@9868e6ce3f6c67c3a2923bef5ce603cf17bfd032 # v0.12.0
     with:
       mode: ${{ vars.MERGE_WHEN_GREEN_MODE || 'dry' }}
       owner-alert: igonzalezespi
