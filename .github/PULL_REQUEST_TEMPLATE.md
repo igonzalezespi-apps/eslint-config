@@ -1,6 +1,5 @@
-<!-- Si la mergea una persona (`revision-humana`), el cuerpo abre, en palabras llanas y sin
-     encabezado: por qué hace falta ella, qué puede salir mal y cómo se deshace, qué NO se ha
-     comprobado y el comando completo de merge. Si NO debe mergearse todavía, se abre en DRAFT. -->
+<!-- Primeras líneas, sin encabezado y en castellano llano: qué cambia para el mantenedor.
+     Si NO debe mergearse todavía, se abre en DRAFT. -->
 
 ## Lo técnico (decidido por el agente; queda registrado)
 
