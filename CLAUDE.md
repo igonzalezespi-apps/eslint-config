@@ -1,35 +1,44 @@
 # eslint-config
 
 Shared **ESLint flat configs** (`base.mjs`, `next.mjs`, `expo.mjs`) for the maintainer's repos.
-Public (MIT). **Not published to npm:** consumers install it as a git dependency pinned by tag
-(`github:igonzalezespi-apps/eslint-config#vX.Y.Z`). The npm name `@studio/eslint-config` belongs
-to an unrelated third party, so never install it from the registry. The exported configs are a
-public API: a rule change alters every consumer's lint.
+Public (MIT). Consumers install it as a git dependency pinned by tag
+(`github:igonzalezespi-apps/eslint-config#vX.Y.Z`).
 
 ## Rules
 
-- **Public repo: never name a private project** — not in configs, tests, docs, comments, commit
-  messages, PR bodies or CI. The `.githooks/` hooks enforce it against a private denylist (a no-op
-  on a fork); they are not wired through a package `prepare` script on purpose, since that would
-  run in consumers' installs.
+- **This repo is public: nothing names a private project** — not code, tests, docs, comments,
+  commits, PRs, issues or comments on them. The `.githooks/` hooks check files and commit
+  messages against a private list kept on the maintainer's machine (fail closed there, no-op on
+  a fork). Enable them per clone: `git config core.hooksPath .githooks`. They are deliberately
+  not wired through a package `prepare` script: that would run in consumers' installs.
+- **Not published to npm.** The npm name `@studio/eslint-config` belongs to an unrelated third
+  party: never install it from the registry.
+- **The presets are a public API.** A rule change alters every consumer's lint: prefer additive,
+  opt-in changes. Details in `.claude/rules/configs.md`.
 - **Language:** reply to the maintainer in Spanish; code, comments and this file stay English.
-- **Branch flow: `develop` → `main`.** Work PRs target `develop`, and so do dependency PRs (the
-  shared Renovate preset inherits `develop`). They land by **squash** — a convention, since all
-  three merge methods are enabled — so the PR title becomes the commit and MUST be a valid
-  Conventional Commit: it drives the changelog and version, together with the one `semver:*`
-  label every PR needs. `main` moves only through the promotion PR `develop` → `main`, which the
-  maintainer merges with a merge commit; nothing automatic, and no agent, ever merges into `main`.
-- **Server-side, once the maintainer applies it** (public repos only; check with
-  `gh api repos/<owner>/<repo>/branches/<branch>/protection`, 404 = not yet): `develop` and `main`
-  need a pull request and a green `typecheck + test`, for admins too; only the maintainer pushes or
-  merges into `main`. `merge-when-green` (dry until the maintainer turns it live) may squash
-  riesgo-0 PRs into `develop`; `develop-health` reverts such a merge if it turns `develop` red.
-  Run `./bootstrap.sh` after cloning.
-- The company-wide rules come from the `studio-policy` plugin; this file keeps only what is
-  specific to this repo. Path rules load on demand: `.claude/rules/configs.md` (the presets and
-  their tests) and `.claude/rules/guard.md` (`scripts/hooks/`, `.githooks/`, `bootstrap.sh`).
 
-## Reserved to the maintainer (escalate, do not decide)
+## Flow
 
-Breaking the public API (a config or rule change consumers depend on) · spend or cost · opening,
-renaming or changing the visibility of this repo.
+- New worktree from `origin/develop`; PR into `develop`, landed by **squash**, so the PR title
+  is the commit and must be a Conventional Commit (it drives the changelog).
+- When its checks are green you merge it yourself:
+  `gh pr merge <n> --squash --match-head-commit <sha>`. If the change is delicate, first get a
+  second read with `/code-review` in a clean context.
+- `main` and releases belong to the maintainer: while `develop` exists, the `develop` → `main`
+  promotion is theirs (merge commit), and a release tag must match `version` in `package.json`.
+- What to ask the maintainer and what you decide comes from the machine's instructions; it is
+  not repeated here.
+
+## Commands
+
+```bash
+pnpm install --frozen-lockfile
+pnpm exec tsc --noEmit
+pnpm test          # vitest; the tests in __tests__/ pin the exported rules and their options
+```
+
+## Where things live
+
+- Presets: `*.mjs` at the root (the package `exports`); their tests: `__tests__/`.
+- Local hooks: `.githooks/` (gitleaks + private-name check). CI: `.github/workflows/` —
+  `ci.yml` (typecheck + test), `hygiene.yml` (gitleaks over history, CLAUDE.md ≤ 6 KB).
