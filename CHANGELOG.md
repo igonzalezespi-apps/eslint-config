@@ -20,8 +20,9 @@ fichero se sembró el 2026-08-09, cuando se automatizaron los releases.
   `exemptEmptyConstructors` en `jsdoc/require-jsdoc`, que no tiene efecto porque el preset ya
   pone `checkConstructors: false`. El cambio incompatible de jsdoc 65 (`check-indentation`) no
   afecta: esa regla no está activada.
-- **Node mínimo para consumidores del preset `base`/`next`:** `eslint-plugin-jsdoc` 64+ exige
-  Node `^22.22.2 || >=24.15.0` (antes `^22.13.0 || >=24`) y solo se publica como ESM.
+- **Node mínimo para todos los consumidores** (`eslint-plugin-jsdoc` 64+ se instala con el
+  paquete, también si solo se usa el preset `expo`): exige Node `^22.22.2 || >=24.15.0` (antes
+  `^22.13.0 || >=24`) y solo se publica como ESM.
 
 ### Interno
 
