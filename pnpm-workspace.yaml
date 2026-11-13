@@ -37,3 +37,14 @@ allowBuilds:
 # is covered by a check aimed at that operation, not by re-verifying the entire
 # tree on every install.
 minimumReleaseAge: 0
+
+# Security override for GHSA-g3hv-75wg-m249 (minimatch ReDoS via globparts
+# amplification, fixed in 11.0.1). minimatch 10.x arrives transitively through
+# ESLint (@eslint/config-array), typescript-eslint (typescript-estree) and
+# eslint-plugin-sonarjs; none has released a range that allows 11 yet. Those
+# consumers only use `new Minimatch(pattern, opts).match()` and `minimatch()`,
+# which 11 keeps unchanged (11 drops `makeRe`, which none of them calls).
+# minimatch 3.x is outside the vulnerable range and is left alone.
+# Remove this once the upstream ranges include >=11.0.1.
+overrides:
+  'minimatch@>=7.0.0 <11.0.1': ^11.0.1
