@@ -64,6 +64,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Fails if any dependency (direct or transitive) has a known security advisory
+      # of moderate severity or higher: GitHub alerts only warn, this blocks the PR.
+      - name: Audit dependencies
+        run: pnpm audit --audit-level moderate
+
       - name: Typecheck
         run: pnpm exec tsc --noEmit
 
