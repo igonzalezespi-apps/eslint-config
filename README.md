@@ -39,7 +39,7 @@ This repo is **not published to npm**. Depend on it by git tag:
 The ESLint plugins the presets `import` are declared as `dependencies`, so a git
 install resolves them automatically. `eslint` and `typescript-eslint` are
 **peer dependencies** — your project pins the versions that match its toolchain
-(the config supports `eslint >= 9`; it is developed and tested on ESLint 10).
+(the config supports `eslint >= 9.39.5`; it is developed and tested on ESLint 10).
 
 ### `base` — Node / library / monorepo packages
 
