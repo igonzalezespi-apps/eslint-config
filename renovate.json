@@ -2,5 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>igonzalezespi-apps/renovate-config:config-repo"
+  ],
+  "packageRules": [
+    {
+      "description": "The peer range is the oldest ESLint consumers may use (public API), not the version we test on: never bump it automatically. The devDependency copy of eslint keeps updating.",
+      "matchDepTypes": [
+        "peerDependencies"
+      ],
+      "enabled": false
+    }
   ]
 }
