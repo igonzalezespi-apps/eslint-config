@@ -10,6 +10,23 @@ cuyo producto es un conjunto de reglas.
 El histórico anterior a `0.2.3` se ha reconstruido a partir de los commits y los tags: este
 fichero se sembró el 2026-08-09, cuando se automatizaron los releases.
 
+## [Sin publicar]
+
+### Cambiado
+
+- **`eslint-plugin-jsdoc` 63 → 65 y `eslint-config-expo` 57 → 58.** Las reglas que reciben los
+  presets `base`, `next` y `expo` no cambian: comparada la configuración resuelta para ficheros
+  `.ts`, `.tsx` y `.js` antes y después, la única diferencia es el valor por defecto de
+  `exemptEmptyConstructors` en `jsdoc/require-jsdoc`, que no tiene efecto porque el preset ya
+  pone `checkConstructors: false`. El cambio incompatible de jsdoc 65 (`check-indentation`) no
+  afecta: esa regla no está activada.
+- **Node mínimo para consumidores del preset `base`/`next`:** `eslint-plugin-jsdoc` 64+ exige
+  Node `^22.22.2 || >=24.15.0` (antes `^22.13.0 || >=24`) y solo se publica como ESM.
+
+### Interno
+
+- `vitest` 4 → 5 (solo desarrollo).
+
 ## [0.2.3] — 2026-08-09
 
 Release **de metadatos: no cambia ninguna regla.** `v0.2.2` y `v0.2.3` exportan exactamente el
