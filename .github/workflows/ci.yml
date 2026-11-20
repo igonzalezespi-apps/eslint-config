@@ -12,9 +12,6 @@ on:
 permissions:
   contents: read
 
-# Every push to `develop` or `main` gets its own run and its own verdict (a group per run): without
-# one verdict per pushed commit, develop-health cannot tie a red to one merge (it would see two
-# commits between the last green and the first red and escalate instead of reverting).
 # Concurrency (studio#276): solo se cancela lo que un commit NUEVO deja viejo.
 #   - `opened` y `synchronize` comparten un grupo por PR y cancelan la run en curso: la cancelada
 #     es la de un commit que ya no es la cabeza.
