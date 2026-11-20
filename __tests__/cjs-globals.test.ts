@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { Linter } from 'eslint';
+import { ESLint, Linter } from 'eslint';
 import { describe, expect, it } from 'vitest';
 
 import config from '../base.mjs';
@@ -72,9 +72,9 @@ describe('eslint-config base — .cjs override', () => {
 
 describe('eslint-config base — .ts parsing is unaffected by the .cjs override', () => {
   it('parses TypeScript syntax cleanly (no fatal parser errors)', () => {
-    // If the .cjs block bled into .ts files, sourceType would be 'commonjs'
-    // and the TypeScript parser would not activate — interface/type syntax
-    // would then produce fatal parser errors.
+    // This case alone does NOT catch the .cjs block bleeding into .ts files:
+    // the TypeScript parser is still selected by its own block and parses
+    // interface/type syntax without fatal errors. The next case checks that.
     const code =
       'interface Foo { readonly x: number }\n' + 'export const foo: Foo = { x: 1 } as const;\n';
     const messages = linter.verify(code, config as Linter.Config[], {
@@ -82,5 +82,26 @@ describe('eslint-config base — .ts parsing is unaffected by the .cjs override'
     });
     const fatal = messages.filter((m) => m.fatal);
     expect(fatal).toHaveLength(0);
+  });
+
+  it('resolves a .ts file without the CommonJS sourceType or CommonJS globals', async () => {
+    // Asserts on the RESOLVED config, which is where a leak of the .cjs block
+    // shows: `sourceType: 'commonjs'` and the Node CJS wrapper globals.
+    const eslint = new ESLint({
+      cwd: here,
+      overrideConfigFile: true,
+      overrideConfig: config as Linter.Config[]
+    });
+    const resolved = (await eslint.calculateConfigForFile(virtualFile('example.ts'))) as
+      | Linter.Config
+      | undefined;
+    // `undefined` means the file is ignored (e.g. outside `cwd`): without this
+    // check the assertions below would pass on nothing.
+    expect(resolved).toBeDefined();
+    expect(resolved?.languageOptions?.sourceType).not.toBe('commonjs');
+    const declared = resolved?.languageOptions?.globals ?? {};
+    expect(declared).not.toHaveProperty('require');
+    expect(declared).not.toHaveProperty('module');
+    expect(declared).not.toHaveProperty('__dirname');
   });
 });

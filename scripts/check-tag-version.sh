@@ -11,7 +11,7 @@
 #
 # This is an ALARM, not a barrier: by the time a tag push runs the workflow, the tag exists.
 # It turns a silent mismatch into a loud one. What PREVENTS it is cutting the tag from the
-# bump commit itself — the job of the release workflow (studio plan, F2.5).
+# bump commit itself.
 set -euo pipefail
 
 usage() {
