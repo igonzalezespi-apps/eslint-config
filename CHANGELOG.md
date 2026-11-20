@@ -27,6 +27,8 @@ fichero se sembró el 2026-08-09, cuando se automatizaron los releases.
 ### Interno
 
 - `vitest` 4 → 5 (solo desarrollo).
+- La CI deja de ejecutar `pnpm audit`: un aviso sin versión corregida bloqueaba todo el repo. Los
+  avisos siguen llegando por las alertas de GitHub y las PR de vulnerabilidad de Renovate.
 
 ## [0.2.3] — 2026-08-09
 
