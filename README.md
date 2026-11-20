@@ -31,15 +31,16 @@ This repo is **not published to npm**. Depend on it by git tag:
 // package.json
 {
   "devDependencies": {
-    "@studio/eslint-config": "github:igonzalezespi-apps/eslint-config#v0.1.3"
+    "@studio/eslint-config": "github:igonzalezespi-apps/eslint-config#v0.2.3"
   }
 }
 ```
 
-The ESLint plugins the presets `import` are declared as `dependencies`, so a git
-install resolves them automatically. `eslint` and `typescript-eslint` are
-**peer dependencies** — your project pins the versions that match its toolchain
-(the config supports `eslint >= 9.39.5`; it is developed and tested on ESLint 10).
+The ESLint plugins the presets `import`, `typescript-eslint` included, are
+declared as `dependencies`, so a git install resolves them automatically. Only
+`eslint` is a **peer dependency** — your project pins the version that matches
+its toolchain (the config supports `eslint >= 9.39.5`; it is developed and tested
+on ESLint 10).
 
 ### `base` — Node / library / monorepo packages
 
@@ -81,13 +82,10 @@ This package is part of the studio's **homogenize-projects** effort: shared
 config lives in small public repos consumed by git reference, so every studio
 project lints against one source of truth instead of drifting per-repo copies.
 It merges the previously-separate base config (the richer ESLint 10 base:
-security + sonarjs + jsdoc, with rule-tester tests) and the `aca` config (the
-`expo` preset). The companion
+security + sonarjs + jsdoc, with rule-tester tests) and a product repo's Expo
+config (the `expo` preset). The companion
 [`@studio/tsconfig`](https://github.com/igonzalezespi-apps/tsconfig) does the same for
 TypeScript compiler options.
-
-Consumer migration of the product repos onto this package is a separate,
-verification-heavy step and is intentionally **not** part of v0.1.0.
 
 ## Develop
 
