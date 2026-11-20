@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  minimatch@>=7.0.0 <11.0.1: ^11.0.1
+  minimatch@>=7.0.0 <11.0.1: ^11.0.8
 
 importers:
 
@@ -33,14 +33,14 @@ importers:
         specifier: ^17.14.0
         version: 17.14.0
       typescript-eslint:
-        specifier: ^8.72.1
+        specifier: ^8.72.2
         version: 8.73.0(eslint@10.15.0)(typescript@6.0.3)
     devDependencies:
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
       '@typescript-eslint/rule-tester':
-        specifier: ^8.72.1
+        specifier: ^8.72.2
         version: 8.73.0(eslint@10.15.0)(typescript@6.0.3)
       eslint:
         specifier: ^10.14.0
