@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  minimatch@>=7.0.0 <11.0.1: ^11.0.8
+  minimatch@>=7.0.0 <11.0.1: ^11.0.9
 
 importers:
 
@@ -21,7 +21,7 @@ importers:
         specifier: ^10.1.8
         version: 10.1.8(eslint@10.15.0)
       eslint-plugin-jsdoc:
-        specifier: ^65.4.5
+        specifier: ^65.5.1
         version: 65.5.4(eslint@10.15.0)(typescript@6.0.3)
       eslint-plugin-security:
         specifier: ^4.2.1
@@ -33,23 +33,23 @@ importers:
         specifier: ^17.14.0
         version: 17.14.0
       typescript-eslint:
-        specifier: ^8.72.2
+        specifier: ^8.73.0
         version: 8.74.0(eslint@10.15.0)(typescript@6.0.3)
     devDependencies:
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
       '@typescript-eslint/rule-tester':
-        specifier: ^8.72.2
+        specifier: ^8.73.0
         version: 8.74.0(eslint@10.15.0)(typescript@6.0.3)
       eslint:
-        specifier: ^10.14.0
+        specifier: ^10.15.0
         version: 10.15.0
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
       vitest:
-        specifier: ^5.1.0
+        specifier: ^5.1.1
         version: 5.1.1(@types/node@24.19.2)(vite@8.3.8(@types/node@24.19.2)(yaml@2.9.1))
 
 packages:
